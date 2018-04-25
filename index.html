@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>1980's Hangman</title>
+
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+      <h1>It's the 80's Hangman Game</h1>
+      <br>
+      <p>Hit any key to start</p>
+      <br>
+  </div>
+
+  
+  <div class="wrapper">
+      <div id="buttons">
+      </div>  
+      <div id="hold">
+      </div>
+      <p id="mylives"></p>
+      <div class="container">
+        <button id="reset">Play Again</button>
+      </div>
+  </div>
+  
+<script>
+
+window.onload = function () {
+
+  var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+        't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  
+  var bands ;             // Bands
+  var word ;              // Selected word
+  var guess ;             // Guess
+  var guesses = [ ];      // Stored guesses
+  var lives ;             // Lives
+  var counter ;           // Count correct guesses
+  var space;              // Number of spaces in word '-'
+
+  // Get elements
+  var showLives = document.getElementById("mylives");
+  var showCatagory = document.getElementById("scatagory");
+  var getHint = document.getElementById("hint");
+  var showClue = document.getElementById("clue");
+
+
+
+  // create alphabet ul
+  var buttons = function () {
+    myButtons = document.getElementById('buttons');
+    letters = document.createElement('ul');
+
+    for (var i = 0; i < alphabet.length; i++) {
+      letters.id = 'alphabet';
+      list = document.createElement('li');
+      list.id = 'letter';
+      list.innerHTML = alphabet[i];
+      check();
+      myButtons.appendChild(letters);
+      letters.appendChild(list);
+    }
+  }
+    
+  
+  
+
+  // Create guesses ul
+   result = function () {
+    wordHolder = document.getElementById('hold');
+    correct = document.createElement('ul');
+
+    for (var i = 0; i < word.length; i++) {
+      correct.setAttribute('id', 'my-word');
+      guess = document.createElement('li');
+      guess.setAttribute('class', 'guess');
+      if (word[i] === "-") {
+        guess.innerHTML = "-";
+        space = 1;
+      } else {
+        guess.innerHTML = "_";
+      }
+
+      guesses.push(guess);
+      wordHolder.appendChild(correct);
+      correct.appendChild(guess);
+    }
+  }
+  
+
+  // Show lives
+   comments = function () {
+    showLives.innerHTML = "You have " + lives + " lives";
+    if (lives < 1) {
+      showLives.innerHTML = "Game Over";
+    }
+    for (var i = 0; i < guesses.length; i++) {
+      if (counter + space === guesses.length) {
+        showLives.innerHTML = "You Win!";
+      }
+    }
+  }
+
+
+  // OnClick Function
+   check = function () {
+    list.onclick = function () {
+      var guess = (this.innerHTML);
+      this.setAttribute("class", "active");
+      this.onclick = null;
+      
+      document.write("You don't like sushi or ginger tea.");}
+      
+      for (var i = 0; i < word.length; i++) {
+        if (word[i] === guess) {
+          guesses[i].innerHTML = guess;
+          counter += 1;
+        } 
+      }
+      var j = (word.indexOf(guess));
+      if (j === -1) {
+        lives -= 1;
+        comments();
+      } else {
+        comments();
+      }
+    }
+  
+    
+  // Play
+  play = function () {
+    bands = ["duran duran", "petshop boys", "thompson twins"];
+
+    // chosenCategory = categories[Math.floor(Math.random() * categories.length)];
+    word = bands[Math.floor(Math.random() * bands.length)];
+    word = word.replace(/\s/g, "-");
+    console.log(word);
+    //buttons();
+
+    guesses = [ ];
+    lives = 10;
+    counter = 0;
+    space = 0;
+    result();
+    comments();
+  }
+  
+  play();
+  
+
+  
+   // Reset
+
+  document.getElementById('reset').onclick = function() {
+    correct.parentNode.removeChild(correct);
+    console.log("Hello There!");
+    //letters.parentNode.removeChild(letters);
+    console.log("Hello There Again!");
+    
+    play();
+  
+}
+} 
+
+
+</script>
+
+</body>
+
+</html>
